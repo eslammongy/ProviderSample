@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 Widget showTextInputField(
     {required String labelText,
@@ -10,7 +9,7 @@ Widget showTextInputField(
     style: const TextStyle(
         fontSize: 20, color: Colors.black87, fontWeight: FontWeight.w700),
     decoration: InputDecoration(
-      fillColor: HexColor("D6CBB7"),
+      fillColor: Colors.white,
       filled: true,
       labelText: labelText,
       labelStyle: const TextStyle(
@@ -20,9 +19,11 @@ Widget showTextInputField(
       ),
       floatingLabelBehavior: FloatingLabelBehavior.never,
     ),
-    validator: (String? value) {
-      return value!.isEmpty ? '$labelText is required' : null;
+    validator: (value) {
+      if (value!.isEmpty) {
+        return "please $labelText !";
+      }
+      return null;
     },
-    onSaved: (String? value) {},
   );
 }

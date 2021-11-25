@@ -2,14 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider_sample/model/user_model.dart';
+import 'package:provider_sample/provider/user_notifier.dart';
 import 'package:provider_sample/view/widgets/custom_button.dart';
 import 'package:provider_sample/view/widgets/text_input_form.dart';
 
-void showingGeneralDialog(BuildContext context, String signInType) {
+void showingGeneralDialog(BuildContext context, UserNotifier userNotifier) {
   var etNameController = TextEditingController();
   var etAddressController = TextEditingController();
   var etPhoneController = TextEditingController();
-  var height = MediaQuery.of(context).size.height;
+  var formKey = GlobalKey<FormState>();
+
   showGeneralDialog(
       context: context,
       barrierDismissible: true,
@@ -18,73 +21,78 @@ void showingGeneralDialog(BuildContext context, String signInType) {
       transitionDuration: const Duration(milliseconds: 600),
       pageBuilder: (BuildContext buildContext, Animation animation,
           Animation secondaryAnimation) {
-        return Container(
-          margin: const EdgeInsets.only(top: 80),
+        return Form(
+          key: formKey,
+          autovalidate: true,
           child: Material(
             animationDuration: const Duration(milliseconds: 400),
             color: Colors.black54.withAlpha(0),
-            child: Stack(
-              alignment: AlignmentDirectional.center,
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.95,
-                  height: height * 0.5,
-                  margin: const EdgeInsets.only(bottom: 80),
-                  decoration: BoxDecoration(
-                    color: HexColor("FEF5E4"),
-                    borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  ),
-                  padding: const EdgeInsets.all(10),
-                  child: Column(children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    showTextInputField(
-                        labelText: "enter name",
-                        textEditingController: etNameController),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    showTextInputField(
-                        labelText: "enter address",
-                        textEditingController: etAddressController),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    showTextInputField(
-                        labelText: "enter phone",
-                        textEditingController: etPhoneController),
-                    const Spacer(),
-                    Align(
-                      alignment: AlignmentDirectional.bottomCenter,
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Row(
-                          children: [
-                            buildCustomButton(
-                                context: context,
-                                text: "Cancel",
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.red,
-                                textColor: Colors.white),
-                            const Spacer(),
-                            buildCustomButton(
-                                context: context,
-                                text: "Save",
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                color: Colors.green,
-                                textColor: Colors.white),
-                          ],
-                        ),
-                      ),
-                    )
-                  ]),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 150, horizontal: 10),
+              decoration: BoxDecoration(
+                color: HexColor("FEF5E4"),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+              ),
+              padding: const EdgeInsets.all(10),
+              child: Column(children: [
+                const SizedBox(
+                  height: 50,
                 ),
-              ],
+                showTextInputField(
+                  labelText: "enter name",
+                  textEditingController: etNameController,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                showTextInputField(
+                  labelText: "enter address",
+                  textEditingController: etAddressController,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                showTextInputField(
+                  labelText: "enter phone",
+                  textEditingController: etPhoneController,
+                ),
+                const Spacer(),
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                  child: Row(
+                    children: [
+                      buildCustomButton(
+                          context: context,
+                          text: "Cancel",
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          color: Colors.red,
+                          textColor: Colors.white),
+                      const Spacer(),
+                      buildCustomButton(
+                          context: context,
+                          text: "Save",
+                          onPressed: () {
+                            if (!formKey.currentState!.validate()) {
+                              return;
+                            } else {
+                              formKey.currentState!.save();
+
+                              userNotifier.addNewUser(UserModel(
+                                  userName: etNameController.text,
+                                  userAddress: etAddressController.text,
+                                  userPhone: etPhoneController.text));
+                              Navigator.pop(context);
+                            }
+                          },
+                          color: Colors.green,
+                          textColor: Colors.white),
+                    ],
+                  ),
+                )
+              ]),
             ),
           ),
         );
