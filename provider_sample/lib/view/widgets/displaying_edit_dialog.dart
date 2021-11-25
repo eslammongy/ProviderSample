@@ -30,7 +30,7 @@ void showingGeneralDialog(BuildContext context, UserNotifier userNotifier) {
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 150, horizontal: 10),
               decoration: BoxDecoration(
-                color: HexColor("FEF5E4"),
+                color: Theme.of(context).cardColor,
                 borderRadius: const BorderRadius.all(Radius.circular(15)),
               ),
               padding: const EdgeInsets.all(10),
@@ -39,6 +39,7 @@ void showingGeneralDialog(BuildContext context, UserNotifier userNotifier) {
                   height: 50,
                 ),
                 showTextInputField(
+                  context: context,
                   labelText: "enter name",
                   textEditingController: etNameController,
                 ),
@@ -46,6 +47,7 @@ void showingGeneralDialog(BuildContext context, UserNotifier userNotifier) {
                   height: 10,
                 ),
                 showTextInputField(
+                  context: context,
                   labelText: "enter address",
                   textEditingController: etAddressController,
                 ),
@@ -53,6 +55,7 @@ void showingGeneralDialog(BuildContext context, UserNotifier userNotifier) {
                   height: 10,
                 ),
                 showTextInputField(
+                  context: context,
                   labelText: "enter phone",
                   textEditingController: etPhoneController,
                 ),

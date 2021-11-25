@@ -20,15 +20,14 @@ class UsersListScreen extends StatelessWidget {
       shrinkWrap: true,
       physics: const BouncingScrollPhysics(),
       itemBuilder: (BuildContext context, int index) => Card(
-        elevation: 8,
+        elevation: 2,
         margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        color: Colors.white12,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         child: Container(
             height: 120,
             width: double.infinity,
             decoration: BoxDecoration(
-                color: HexColor("2B2B2B"),
+                color: Theme.of(context).cardColor,
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -42,21 +41,22 @@ class UsersListScreen extends StatelessWidget {
                     children: [
                       Text(
                         context.watch<UserNotifier>().usersList[index].userName,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontFamily: "Roboto",
                             fontSize: 20,
                             fontWeight: FontWeight.w800,
-                            color: Colors.white),
+                            color: Theme.of(context).hintColor),
                       ),
                       Text(
                         context
                             .watch<UserNotifier>()
                             .usersList[index]
                             .userAddress,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontFamily: "Roboto",
-                            fontSize: 20,
-                            color: Colors.orange),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context).hintColor),
                       ),
                     ],
                   ),
@@ -66,8 +66,15 @@ class UsersListScreen extends StatelessWidget {
                       onPressed: () {
                         notifier.deleteSelectedUser(index);
                       },
-                      icon: const Icon(Icons.delete_forever_rounded,
-                          size: 30, color: Colors.red),
+                      icon: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Theme.of(context).hintColor,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: const Icon(Icons.delete_forever_rounded,
+                            size: 30, color: Colors.red),
+                      ),
                     ),
                   ),
                   const SizedBox(

@@ -3,13 +3,16 @@ import 'package:flutter/material.dart';
 
 Widget showTextInputField(
     {required String labelText,
+    required BuildContext context,
     required TextEditingController textEditingController}) {
   return TextFormField(
     controller: textEditingController,
-    style: const TextStyle(
-        fontSize: 20, color: Colors.black87, fontWeight: FontWeight.w700),
+    style: TextStyle(
+        fontSize: 20,
+        color: Theme.of(context).hintColor,
+        fontWeight: FontWeight.w700),
     decoration: InputDecoration(
-      fillColor: Colors.white,
+      fillColor: Theme.of(context).scaffoldBackgroundColor,
       filled: true,
       labelText: labelText,
       labelStyle: const TextStyle(

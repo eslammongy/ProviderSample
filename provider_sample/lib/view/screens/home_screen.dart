@@ -17,16 +17,28 @@ class _HomeScreenState extends State<HomeScreen> {
     UserNotifier userNotifier = Provider.of<UserNotifier>(context);
     return Scaffold(
       appBar: AppBar(
-        elevation: 10,
-        title: const Text(
-          "Provider Sample",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {}, icon: const Icon(Icons.brightness_6_rounded)),
-        ],
-      ),
+          title: Text(
+            "Provider Sample",
+            style: TextStyle(
+                letterSpacing: 0.6,
+                fontSize: 20,
+                color: Theme.of(context).hintColor,
+                fontWeight: FontWeight.w800),
+          ),
+          actions: [
+            Consumer<UserNotifier>(
+              builder: (context, notifier, __) => Container(
+                margin: EdgeInsets.zero,
+                width: 60,
+                child: Switch(
+                  onChanged: (val) {
+                    notifier.toggleTheme();
+                  },
+                  value: notifier.darkTheme,
+                ),
+              ),
+            ),
+          ]),
       body: const UsersListScreen(),
       floatingActionButton: Consumer<UserNotifier>(
         builder: (context, notifier, __) => FloatingActionButton(

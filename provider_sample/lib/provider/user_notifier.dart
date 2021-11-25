@@ -14,6 +14,17 @@ class UserNotifier extends ChangeNotifier {
   int get age => _age;
   int get height => _height;
 
+  late bool _darkThemeEnabled;
+  bool get darkTheme => _darkThemeEnabled; //Getter
+  UserNotifier() {
+    _darkThemeEnabled = true;
+  }
+
+  toggleTheme() {
+    _darkThemeEnabled = !_darkThemeEnabled;
+    notifyListeners();
+  }
+
   void addNewUser(UserModel userModel) {
     _usersList.add(userModel);
     notifyListeners();
